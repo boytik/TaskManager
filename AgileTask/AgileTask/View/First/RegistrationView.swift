@@ -11,37 +11,59 @@ struct RegistrationView: View {
     @State private var viewModel = RegistrationViewModel()
     @Binding var showRegistration: Bool
     var body: some View {
-        Text("Регистрация")
-        Spacer()
         VStack {
             VStack {
-                Text("Email")
-                TextField("Email", text: $viewModel.email)
-            }
-            VStack {
-                Text("Пароль")
-                SecureField("Пароль", text: $viewModel.password)
-            }
-            Button("Создать"){
-                viewModel.registerUser()
-            }
-            .alert("", isPresented: $viewModel.showAlert){
-                Button("Ok", role: .cancel){
-                    if viewModel.showAlert {
-                        self.showRegistration.toggle()
-                    }
+                Group {
+                    Text("Регистрация")
+                        .font(.title)
                 }
-            } message: {
-                Text(viewModel.message)
+                Spacer()
+                Group {
+                    Text("Email")
+                        .font(.headline)
+                        .foregroundStyle(.secondary)
+                    TextField("email@example.com", text: $viewModel.email)
+                        .frame(height: 40)
+                        .background() {
+                            RoundedRectangle(cornerRadius: 15)
+                                .stroke(Color.gray.opacity(0.2), lineWidth: 1)
+                        }
+                        .autocorrectionDisabled(true)
+                    Text("Пароль")
+                        .font(.headline)
+                        .foregroundStyle(.secondary)
+                    SecureField("Пароль", text: $viewModel.password)
+                        .frame(height: 40)
+                        .background() {
+                            RoundedRectangle(cornerRadius: 15)
+                                .stroke(Color.gray.opacity(0.2), lineWidth: 1)
+                        }
+                        .autocorrectionDisabled(true)
+                }
+                Spacer()
+                Group {
+                    Button("Создать"){ viewModel.registerUser() }
+                        .frame(maxWidth: .infinity, minHeight: 40)
+                        .background() {
+                            RoundedRectangle(cornerRadius: 15)
+                                .fill(Color.blue)
+                        }
+                        .font(.callout)
+                        .foregroundStyle(.white)
+                        .alert("", isPresented: $viewModel.showAlert){
+                            Button("Ok", role: .cancel){
+                                if viewModel.showAlert { self.showRegistration.toggle() }
+                            }} message: { Text(viewModel.message)}
+                        .padding(.vertical)
+                    Button("Есть аккаунт?"){}
+                        .font(.subheadline)
+                }
             }
-        }
-        Spacer()
-        Button("Есть аккаунт?"){
-            
+            .padding(.horizontal, 40)
         }
     }
 }
-#Preview {
-    @Previewable @State var showRegistration: Bool = true
-    RegistrationView(showRegistration: $showRegistration)
-}
+//#Preview {
+//    @Previewable @State var showRegistration: Bool = true
+//    RegistrationView(showRegistration: $showRegistration)
+//}

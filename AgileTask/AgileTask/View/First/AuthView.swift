@@ -16,29 +16,52 @@ struct AuthView: View {
                 .padding(.vertical)
             Spacer()
             VStack(alignment: .center) {
-                VStack {
+                VStack(alignment: .leading) {
                     Text("Email")
-                    TextField("Email", text: $viewModel.email)
-                }
-                Divider()
-                VStack {
-                    Text("Password")
-                    SecureField("Password", text: $viewModel.password)
-                }
-                Button("Забыли пароль?"){
-                    
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                    TextField("write@example.com", text: $viewModel.email)
+                        .frame(height: 40)
+                        .background() {
+                            RoundedRectangle(cornerRadius: 15)
+                                .stroke(Color.gray.opacity(0.2), lineWidth: 1)
+                        }
+                        .autocorrectionDisabled(true)
+                    HStack {
+                        Text("Password")
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                        Spacer()
+                        Button("Забыли пароль?"){}
+                            .font(.subheadline)
+                    }
+                    SecureField("*******", text: $viewModel.password)
+                        .frame(height: 40)
+                        .background() {
+                            RoundedRectangle(cornerRadius: 15)
+                                .stroke(Color.gray.opacity(0.2), lineWidth: 1)
+                        }
+                        .autocorrectionDisabled(true)
                 }
             }
             Spacer()
             VStack {
                 Button("Войти"){viewModel.loggIn()}
+                    .frame(maxWidth: .infinity, minHeight: 40)
+                    .background() {
+                        RoundedRectangle(cornerRadius: 15)
+                            .fill(Color.blue)
+                    }
+                    .font(.callout)
+                    .foregroundStyle(.white)
                     .alert("Внимание", isPresented: $viewModel.showAlert){
                         Button("OK"){viewModel.showAlert = false}
                     } message: {
                         Text(viewModel.alertMessage)
                     }
                     .padding(.vertical)
-                Button("Зарегистрироваться"){viewModel.registration()}
+                Button("Зарегистрироваться?"){viewModel.registration()}
+                    .font(.callout)
                     .sheet(isPresented: $viewModel.showRegistration){
                         RegistrationView(showRegistration: $viewModel.showRegistration)
                     }
@@ -49,6 +72,6 @@ struct AuthView: View {
     }
 }
 
-#Preview {
-    AuthView()
-}
+//#Preview {
+//    AuthView()
+//}
